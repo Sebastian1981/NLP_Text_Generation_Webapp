@@ -1,11 +1,11 @@
 import streamlit as st
 from path import Path
-from keyword_app import run_keyword_selection_app
+from topic_app import run_generate_topics_app
 
 def main():
     st.title("Demo NLP App for Text Generation using ChatGPT")
 
-    menu = ["About", "Keywords"]
+    menu = ["About", "Generate Topics"]
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == "About":
@@ -15,9 +15,9 @@ def main():
             st.markdown(Path('About.md').read_text())
         except:
             st.markdown(Path('\web_app\About.md').read_text())   
-    elif choice == "Keywords":
+    elif choice == "Generate Topics":
         st.subheader('Select Keywords')
-        run_keyword_selection_app()
+        run_generate_topics_app()
     
 if __name__ == "__main__":
     main()
