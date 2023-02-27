@@ -1,7 +1,8 @@
 Motivation:
-Marketing conversion prediction adds tremendous value to any marketing campaign. By leveraging data and predictive analytics, marketers are able to anticipate and measure the likelihood of a customer or user completing a desired action. This gives marketers the opportunity to strategically target the most valuable customers and maximize their ROI.
+Text generation can be a powerful tool for improving communication and productivity. With ChatGPT, you can easily produce high-quality, personalized text that can help you better engage with customers, automate marketing tasks, and generate content to drive business growth. Text generation also helps to reduce costly manual labor, freeing up time and resources to focus on more strategic tasks. By leveraging the power of ChatGPT, you can unlock the potential of text generation to drive engagement and success.
 
 Instructions:
-
-upload csv file of the same type as the training data
-download csv file with engagement probabilitied added
+- select keywords
+- get topics associated with the keywords using google search
+- enrich the topic list using ChatGPT
+- generate seo-text using ChatGPT
