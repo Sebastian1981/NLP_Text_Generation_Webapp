@@ -14,7 +14,7 @@ def main():
         try:
             st.markdown(Path('About.md').read_text())
         except:
-            st.markdown(Path('.\web_app\About.md').read_text())   
+            st.markdown(Path('/web_app/About.md').read_text())   
     elif choice == "Generate Topics":
         st.subheader('Select Keywords')
         run_generate_topics_app()
