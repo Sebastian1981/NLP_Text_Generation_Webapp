@@ -5,6 +5,14 @@ from googlesearch import search
 import pandas as pd
 
 
+@st.cache_data
+def convert_df(df):
+    df = df.to_csv(
+        sep = ';',
+        header = True,
+        index = False).encode('utf-8')
+    return df
+
 def parse_date_from_html(html_string):
     "parse date from html. Input html as byte object. The output is a string."
     try:
@@ -30,7 +38,7 @@ def parse_title_from_html(html_string):
         title = 'no title detected'
     return title
 
-st.cache
+@st.cache_data
 def google_query(keywords, num_results):
   "query google by topics and return the url, the title and the publication date for each search result as lists"
   source_google = []
