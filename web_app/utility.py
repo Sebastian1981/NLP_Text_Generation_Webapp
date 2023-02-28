@@ -61,3 +61,16 @@ def google_query(keywords, num_results):
 
   # turn titles and sources into dataframe
   return pd.DataFrame({'source': source_google, 'title': titles_google, 'date': publication_dates_google})
+
+
+def chatgpt_generate_topics(keywords:list, num_topics:int):
+    "Give ChatGPT instructions to generate num_topics for the given keywors"
+    instruction = \
+    '\n' \
+    "Nenne zu folgenden Keywords " + '\n' \
+    'keywords = ' + str(keywords)  + '\n' \
+    ' ' + str(num_topics) + '\n' \
+    ' Themenüberschriften.'
+    print('Instruction: ', instruction)
+    return instruction
+
