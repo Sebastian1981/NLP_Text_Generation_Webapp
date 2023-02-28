@@ -5,7 +5,7 @@ from googlesearch import search
 import pandas as pd
 
 
-@st.cache_data
+@st.cache
 def convert_df(df):
     df = df.to_csv(
         sep = ';',
@@ -38,7 +38,7 @@ def parse_title_from_html(html_string):
         title = 'no title detected'
     return title
 
-@st.cache_data
+@st.cache
 def google_query(keywords, num_results):
   "query google by topics and return the url, the title and the publication date for each search result as lists"
   source_google = []
