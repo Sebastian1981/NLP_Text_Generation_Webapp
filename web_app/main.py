@@ -2,6 +2,7 @@ import streamlit as st
 from path import Path
 from topic_app import run_generate_topics_app
 
+
 def main():
     st.title("Demo NLP App for SEO-Text Generation using ChatGPT")
 

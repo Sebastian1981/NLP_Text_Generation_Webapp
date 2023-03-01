@@ -3,19 +3,31 @@ import json
 import pandas as pd
 
 
-from utility import parse_date_from_html, parse_title_from_html, google_query, convert_df, chatgpt_generate_topics
+from utility import parse_date_from_html, \
+                    parse_title_from_html, \
+                    google_query, \
+                    convert_df, \
+                    chatgpt_generate_topics
 
-keywords = ['Finanzielle Hilfe im Alter', 
+# cache the keyword list
+keyword_list = st.cache(
+    lambda: ['Finanzielle Hilfe im Alter', 
             'Rentner in Not',
             'Armut Senioren',
             'Altersarmut Frauen',
             'Renten Pay-Gap',
-            'Unterstützung Rentner']
+            'Unterstützung Rentner'])()
+
+def run_generate_topics_app(): 
 
 
-def run_generate_topics_app():
+    keyword_input = st.text_input('Enter keyword: ')
+    if keyword_input:
+        keyword_list.append(keyword_input)
+
     # select keywords
-    keywords_selected = st.multiselect("Select keywords", keywords)
+    keywords_selected = (st.multiselect("Select keywords", keyword_list))
+
     
     # Query google keyword by keyword
     st.subheader("Query Keyword-Topics using Google Search")
@@ -29,14 +41,6 @@ def run_generate_topics_app():
             data = convert_df(df_titles_google),
             file_name='titles_google.csv',
             mime='text/csv')
-
-    ## save locally     
-    #with open('keywords.json', 'w') as f:
-    #    json.dump(keywords_selected, f)
-    ## open keyword file
-    #with open('keywords.json') as f:
-    #    keywords_selected = json.load(f)
-    #st.write(keywords_selected)
 
     # Query ChatGPT to generate new Topics
     st.subheader("Query ChatGPT to generate new Topics")
