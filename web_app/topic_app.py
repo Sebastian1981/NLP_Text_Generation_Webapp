@@ -20,15 +20,15 @@ keyword_list = st.cache(
 
 def run_generate_topics_app(): 
 
-
+    # add keywords
     keyword_input = st.text_input('Enter keyword: ')
     if keyword_input:
         keyword_list.append(keyword_input)
 
     # select keywords
     keywords_selected = (st.multiselect("Select keywords", keyword_list))
+    keywords_selected = list(set(keywords_selected)) # delete duplicates
 
-    
     # Query google keyword by keyword
     st.subheader("Query Keyword-Topics using Google Search")
     num_results = st.slider('Number google hits per keyword?', 1, 10, 3)
