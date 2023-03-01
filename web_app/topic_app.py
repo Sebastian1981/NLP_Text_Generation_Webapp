@@ -11,12 +11,8 @@ from utility import parse_date_from_html, \
 
 # cache the keyword list
 keyword_list = st.cache(
-    lambda: ['Finanzielle Hilfe im Alter', 
-            'Rentner in Not',
-            'Armut Senioren',
-            'Altersarmut Frauen',
-            'Renten Pay-Gap',
-            'Unterstützung Rentner'])()
+    lambda: [])()
+
 
 def run_generate_topics_app(): 
 
@@ -28,6 +24,9 @@ def run_generate_topics_app():
     # select keywords
     keywords_selected = (st.multiselect("Select keywords", keyword_list))
     keywords_selected = list(set(keywords_selected)) # delete duplicates
+
+    if st.button('Reset Keywords List'):
+        keyword_list.clear()
 
     # Query google keyword by keyword
     st.subheader("Query Keyword-Topics using Google Search")
