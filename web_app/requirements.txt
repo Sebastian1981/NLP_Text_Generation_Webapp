@@ -4,4 +4,3 @@ pandas==1.2.2
 path.py==12.5.0
 requests==2.25.1
 streamlit==1.13.0
-toml==0.10.2

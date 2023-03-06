@@ -3,7 +3,6 @@ import json
 import pandas as pd
 import re
 import openai
-import toml
 
 
 from utility import parse_date_from_html, \
@@ -20,13 +19,9 @@ try: # this is for local runtime
         openai.api_key = key
     f.close()
 except: # this is for streamlit cloud runtime
-    
-    st.write("api_key:", st.secrets["api_key"])
-    ## Load the TOML file 
-    #config = toml.load('config.toml')
-    ## Access the password
-    #key = config['api_key']
-    #openai.api_key = key
+    # Access the password
+    key = st.secrets["api_key"]
+    openai.api_key = key
 
 # cache the keyword list
 keyword_list = st.cache(
