@@ -3,6 +3,8 @@ import re
 import requests
 from googlesearch import search
 import pandas as pd
+import openai
+import datetime
 
 
 @st.cache
@@ -39,8 +41,8 @@ def parse_title_from_html(html_string):
     return title
 
 @st.cache
-def google_query(keywords, num_results):
-  "query google by topics and return the url, the title and the publication date for each search result as lists"
+def google_query(keywords, num_results)->pd.DataFrame:
+  "query google by topics and return the url, the title and the publication date for each search result"
   source_google = []
   titles_google = []
   publication_dates_google = []
@@ -58,7 +60,6 @@ def google_query(keywords, num_results):
         source_google.append(url)
         titles_google.append(title)
         publication_dates_google.append(date)
-
   # turn titles and sources into dataframe
   return pd.DataFrame({'source': source_google, 'title': titles_google, 'date': publication_dates_google})
 
@@ -73,4 +74,23 @@ def chatgpt_generate_topics(keywords:list, num_topics:int):
     ' Themenüberschriften.'
     print('Instruction: ', instruction)
     return instruction
+
+@st.cache
+def chatgpt_query(instruction, num_tokens)->pd.DataFrame:
+    "query ChatGPT by topics and return the source, the title and the publication date for each search result"
+    response = openai.Completion.create(
+    engine="text-davinci-003",
+    prompt=instruction,
+    temperature=.5,
+    max_tokens=num_tokens,
+    top_p=1,
+    n=2,
+    presence_penalty=.5,
+    frequency_penalty=.5,
+    )
+    titles_chatgpt = response['choices'][0].text
+    titles_chatgpt = [title.strip().replace("\n", "").replace(". ", "") for title in re.split(r'\d+', titles_chatgpt)]
+    date_today = datetime.date.today().strftime("%Y-%m-%d")
+    df_titles_chatgpt = pd.DataFrame({'source': 'chatgpt', 'title': titles_chatgpt, 'date': date_today})
+    return df_titles_chatgpt
 
