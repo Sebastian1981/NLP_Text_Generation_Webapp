@@ -10,8 +10,8 @@ from utility import parse_date_from_html, \
                     google_query, \
                     convert_df, \
                     chatgpt_generate_topics, \
-                    chatgpt_query, \
-                    add_keyword_topic_similarity
+                    chatgpt_query
+                 
 
 # get api key for chat gpt
 try: # this is for local runtime
@@ -65,11 +65,6 @@ def run_generate_topics_app():
         df_titles_chatgpt = chatgpt_query(instruction, num_tokens=1000)
         #st.write(df_titles_chatgpt)
         df_titles = df_titles_google.append(df_titles_chatgpt)
-        
-        ##################################################
-        # Keyword-Topic Similarity
-        ##################################################
-        df_titles = add_keyword_topic_similarity(df_titles, keywords_selected)
         st.write(df_titles)
         
         # download data
