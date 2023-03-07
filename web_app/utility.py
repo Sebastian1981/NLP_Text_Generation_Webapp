@@ -103,8 +103,10 @@ def add_keyword_topic_similarity(df_titles:pd.DataFrame, keywords_selected:list)
     "add keyword-topic similarity to title dataframe using spacy`s German language model"
     # measure similarity between the titles and the keywords
     try: 
+        st.write('importing german language model')
         nlp = spacy.load("de_core_news_lg")
     except:
+        st.write('installing german language model')
         subprocess.run(["python", "-m", "spacy", "download", "de_core_news_lg"])
         nlp = spacy.load("de_core_news_lg")
     title_keyword_similarity = []
