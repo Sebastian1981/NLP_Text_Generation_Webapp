@@ -86,7 +86,7 @@ def run_generate_topics_app():
             st.write("You have selected the following topics:", topic_selected)
             if st.button('Write Article'):
                 instruction = chatgpt_generate_article(keywords_selected, topic_selected)
-                text_seo = chatgpt_generate_text(instruction, num_tokens=1000)
+                #text_seo = chatgpt_generate_text(instruction, num_tokens=1000)
                 st.write('Text: ', text_seo)
                 print(text_seo)
         else:
