@@ -77,6 +77,20 @@ def chatgpt_generate_topics(keywords:list, num_topics:int):
     return instruction
 
 @st.cache
+def chatgpt_generate_article(keywords_selected, topic_selected):
+    instruction = \
+    '\n' \
+    "Schreibe einen Artikel von 250 Wörtern zum Thema: \n" \
+    ' ' + str(topic_selected) + '. \n' + \
+    "Der Artikel soll die Schlüsselbegriffe " + '\n' \
+    ' ' + str(keywords_selected) + '\n' \
+    "enthalten." + '\n' \
+    "Desweiteren soll der Artikel in Absätze und Überschriften unterteilt sein." + '\n' + \
+    "Desweiteren sollen die Überschriften die Schlüsselbegriffe enthalten."
+    print(instruction)
+    return instruction
+
+@st.cache
 def chatgpt_query(instruction, num_tokens)->pd.DataFrame:
     "query ChatGPT by topics and return the source, the title and the publication date for each search result"
     response = openai.Completion.create(
@@ -94,5 +108,21 @@ def chatgpt_query(instruction, num_tokens)->pd.DataFrame:
     date_today = datetime.date.today().strftime("%Y-%m-%d")
     df_titles_chatgpt = pd.DataFrame({'source': 'chatgpt', 'title': titles_chatgpt, 'date': date_today})
     return df_titles_chatgpt
+
+@st.cache
+def chatgpt_generate_text(instruction, num_tokens)->pd.DataFrame:
+    "query ChatGPT by topics and return the source, the title and the publication date for each search result"
+    response = openai.Completion.create(
+    engine="text-davinci-003",
+    prompt=instruction,
+    temperature=.5,
+    max_tokens=num_tokens,
+    top_p=1,
+    n=2,
+    presence_penalty=.5,
+    frequency_penalty=.5,
+    )
+    text_seo = response['choices'][0].text
+    return text_seo
 
 

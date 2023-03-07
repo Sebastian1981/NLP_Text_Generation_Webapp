@@ -10,7 +10,9 @@ from utility import parse_date_from_html, \
                     google_query, \
                     convert_df, \
                     chatgpt_generate_topics, \
-                    chatgpt_query
+                    chatgpt_generate_article, \
+                    chatgpt_query, \
+                    chatgpt_generate_text
                  
 
 # get api key for chat gpt
@@ -73,3 +75,23 @@ def run_generate_topics_app():
             data = convert_df(df_titles),
             file_name='topics.csv',
             mime='text/csv')
+        
+        # select topic for text generation
+        topics = df_titles['title']
+        topic_selected = (st.multiselect("Select article topic", topics))
+
+    if st.button('Generate Article with ChatGPT'):
+        
+        if len(topic_selected) > 0:
+            st.write("You have selected the following topics:", topic_selected)
+            if st.button('Write Article'):
+                instruction = chatgpt_generate_article(keywords_selected, topic_selected)
+                text_seo = chatgpt_generate_text(instruction, num_tokens=1000)
+                st.write('Text: ', text_seo)
+                print(text_seo)
+        else:
+            st.write('select topic')
+        
+        
+        
+        
