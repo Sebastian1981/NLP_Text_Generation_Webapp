@@ -8,6 +8,8 @@ import openai
 import datetime
 import spacy
 import subprocess
+from path import Path
+
 
 
 @st.cache
@@ -104,11 +106,11 @@ def add_keyword_topic_similarity(df_titles:pd.DataFrame, keywords_selected:list)
     # measure similarity between the titles and the keywords
     try: 
         st.write('importing german language model')
-        nlp = spacy.load("./web_app/de_core_news_lg")
+        nlp = spacy.load(Path("./web_app/de_core_news_lg"))
     except:
         st.write('installing german language model')
         subprocess.run(["python", "-m", "spacy", "download", "de_core_news_lg"])
-        nlp = spacy.load("./web_app/de_core_news_lg")
+        nlp = spacy.load(Path("./web_app/de_core_news_lg"))
     title_keyword_similarity = []
     for title in df_titles['title']:
         sim_score = 0
