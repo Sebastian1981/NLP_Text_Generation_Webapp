@@ -5,5 +5,4 @@ pandas==1.2.2
 path.py==12.5.0
 requests==2.25.1
 spacy==2.3.7
-de_core_news_lg
 streamlit==1.13.0
