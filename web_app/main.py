@@ -2,19 +2,6 @@ import streamlit as st
 from path import Path
 from topic_app import run_generate_topics_app
 
-# download Germany language model
-import spacy
-import subprocess
-
-if spacy.util.get_package_path("de_core_news_lg") is not None:
-    print("de_core_news_lg is already installed")
-else:
-    print("de_core_news_lg is not installed")
-    subprocess.call(["python", "-m", "spacy", "download", "de_core_news_lg"])
-
-
-
-
 
 def main():
     st.title("Demo NLP App for SEO-Text Generation using ChatGPT")
