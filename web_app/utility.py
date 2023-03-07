@@ -9,6 +9,7 @@ import datetime
 import spacy
 import subprocess
 
+
 @st.cache
 def convert_df(df):
     df = df.to_csv(
@@ -101,13 +102,11 @@ def chatgpt_query(instruction, num_tokens)->pd.DataFrame:
 def add_keyword_topic_similarity(df_titles:pd.DataFrame, keywords_selected:list)->pd.DataFrame:
     "add keyword-topic similarity to title dataframe using spacy`s German language model"
     # measure similarity between the titles and the keywords
-    try:
+    try: 
         nlp = spacy.load("de_core_news_lg")
     except:
-        # download Germany language model
-        subprocess.call(["python", "-m", "spacy", "download", "de_core_news_lg"])
+        subprocess.run(["python", "-m", "spacy", "download", "de_core_news_lg"])
         nlp = spacy.load("de_core_news_lg")
-    
     title_keyword_similarity = []
     for title in df_titles['title']:
         sim_score = 0
