@@ -96,8 +96,8 @@ def run_generate_topics_app():
             topic_string = f.read()
     topics = topic_string.split('\n')
     topic_selected = st.selectbox("Select article topic", topics)
-    num_article_words = st.slider('Select Number Tokens for ChatGPT', 100, 1000, 250)
-    num_tokens = st.slider('Select Number Tokens for ChatGPT', 100, 2000, 1000)
+    num_article_words = st.slider('Select Number of Article Words', 100, 1000, 250)
+    num_tokens = st.slider('Select Number Tokens', 100, 2000, 1000)
         
     if st.button('Generate Article with ChatGPT'):
         instruction = generate_article_instruction(keywords_selected, 
