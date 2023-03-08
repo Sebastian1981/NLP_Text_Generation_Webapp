@@ -130,4 +130,5 @@ dmypy.json
 
 # dont sync
 *.docx
+topics_file.txt
 private.txt
