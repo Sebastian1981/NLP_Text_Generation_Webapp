@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import re
 import openai
-from docx import Document
+from path import Path
 
 
 from utility import parse_date_from_html, \
@@ -73,8 +73,12 @@ def run_generate_topics_app():
         topic_string = ""
         for topic in topics:
             topic_string += "'" + topic + "'\n"
-        with open('./web_app/topics_file.txt', "w") as f:
-            f.write(topic_string)
+        try:
+            with open('topics_file.txt', "w") as f:
+                f.write(topic_string)
+        except:
+            with open('./web_app/topics_file.txt', "w") as f:
+                f.write(topic_string)
     
         # download data
         st.download_button(
@@ -84,8 +88,12 @@ def run_generate_topics_app():
             mime='text/csv')
 
     # select topic for text generation
-    with open('./web_app/topics_file.txt', 'r') as f:
-        topic_string = f.read()
+    try:
+        with open('topics_file.txt', 'r') as f:
+            topic_string = f.read()
+    except:
+        with open('./web_app/topics_file.txt', 'r') as f:
+            topic_string = f.read()
     topics = topic_string.split('\n')
     topic_selected = st.selectbox("Select article topic", topics)
     num_article_words = st.slider('Select Number Tokens for ChatGPT', 100, 1000, 250)
@@ -101,13 +109,3 @@ def run_generate_topics_app():
         
         st.download_button('Download SEO Text', 
                             text_seo)
-
-            ## Save SEO Text as word file
-            #document = Document()
-            ## Create a new paragraph object.
-            #paragraph = document.add_paragraph()
-            ## Write the string to the paragraph object.
-            #paragraph.add_run(text_seo)
-            ## Save the document.
-            #document.save('seo_text.docx')
-            
