@@ -8,6 +8,7 @@ import openai
 import datetime
 import spacy
 
+
 @st.cache
 def convert_df(df):
     df = df.to_csv(
@@ -65,7 +66,7 @@ def google_query(keywords, num_results)->pd.DataFrame:
   return pd.DataFrame({'source': source_google, 'title': titles_google, 'date': publication_dates_google})
 
 @st.cache
-def chatgpt_generate_topics(keywords:list, num_topics:int):
+def generate_topic_instruction(keywords:list, num_topics:int):
     "Give ChatGPT instructions to generate num_topics for the given keywors"
     instruction = \
     '\n' \
@@ -77,10 +78,11 @@ def chatgpt_generate_topics(keywords:list, num_topics:int):
     return instruction
 
 @st.cache
-def chatgpt_generate_article(keywords_selected, topic_selected):
+def generate_article_instruction(keywords_selected, topic_selected, num_article_words):
     instruction = \
     '\n' \
-    "Schreibe einen Artikel von 250 Wörtern zum Thema: \n" \
+    "Schreibe einen Artikel von \n" \
+    '' + str(num_article_words) + " Wörtern zum Thema: " + '\n' \
     ' ' + str(topic_selected) + '. \n' + \
     "Der Artikel soll die Schlüsselbegriffe " + '\n' \
     ' ' + str(keywords_selected) + '\n' \

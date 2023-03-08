@@ -3,14 +3,15 @@ import json
 import pandas as pd
 import re
 import openai
+from docx import Document
 
 
 from utility import parse_date_from_html, \
                     parse_title_from_html, \
                     google_query, \
                     convert_df, \
-                    chatgpt_generate_topics, \
-                    chatgpt_generate_article, \
+                    generate_topic_instruction, \
+                    generate_article_instruction, \
                     chatgpt_query, \
                     chatgpt_generate_text
                  
@@ -61,37 +62,52 @@ def run_generate_topics_app():
         # ChatGPT Query
         ##################################################
         # make ChatGPT instruction
-        instruction = chatgpt_generate_topics(keywords_selected, num_topics)
-        st.write('Your instruction for ChatGPT: ', instruction)
+        instruction = generate_topic_instruction(keywords_selected, num_topics)
         # pass instruction to ChatGPT and generate topics
         df_titles_chatgpt = chatgpt_query(instruction, num_tokens=1000)
         #st.write(df_titles_chatgpt)
         df_titles = df_titles_google.append(df_titles_chatgpt)
         st.write(df_titles)
-        
+        # save string as file
+        topics = df_titles['title']
+        topic_string = ""
+        for topic in topics:
+            topic_string += "'" + topic + "'\n"
+        with open('./web_app/topics_file.txt', "w") as f:
+            f.write(topic_string)
+    
         # download data
         st.download_button(
             label = "Download CSV",
             data = convert_df(df_titles),
             file_name='topics.csv',
             mime='text/csv')
-        
-        # select topic for text generation
-        topics = df_titles['title']
-        topic_selected = (st.multiselect("Select article topic", topics))
 
+    # select topic for text generation
+    with open('./web_app/topics_file.txt', 'r') as f:
+        topic_string = f.read()
+    topics = topic_string.split('\n')
+    topic_selected = st.selectbox("Select article topic", topics)
+    num_article_words = st.slider('Select Number Tokens for ChatGPT', 100, 1000, 250)
+    num_tokens = st.slider('Select Number Tokens for ChatGPT', 100, 2000, 1000)
+        
     if st.button('Generate Article with ChatGPT'):
+        instruction = generate_article_instruction(keywords_selected, 
+                                                   topic_selected, 
+                                                   num_article_words)
+        st.write(instruction)
+        text_seo = chatgpt_generate_text(instruction, num_tokens)
+        st.write('ChatGPT suggests this SEO Text: \n', text_seo)
         
-        if len(topic_selected) > 0:
-            st.write("You have selected the following topics:", topic_selected)
-            if st.button('Write Article'):
-                instruction = chatgpt_generate_article(keywords_selected, topic_selected)
-                #text_seo = chatgpt_generate_text(instruction, num_tokens=1000)
-                st.write('Text: ', text_seo)
-                print(text_seo)
-        else:
-            st.write('select topic')
-        
-        
-        
-        
+        st.download_button('Download SEO Text', 
+                            text_seo)
+
+            ## Save SEO Text as word file
+            #document = Document()
+            ## Create a new paragraph object.
+            #paragraph = document.add_paragraph()
+            ## Write the string to the paragraph object.
+            #paragraph.add_run(text_seo)
+            ## Save the document.
+            #document.save('seo_text.docx')
+            
