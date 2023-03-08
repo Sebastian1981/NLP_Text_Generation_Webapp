@@ -54,7 +54,7 @@ def google_query(keywords, num_results)->pd.DataFrame:
     for url in search(query, num_results, lang="de"):
         # get html string
         try: 
-            html_string = requests.get(url, timeout=1.0).content
+            html_string = requests.get(url, timeout=2.5).content
         except:
             html_string = ''
             
