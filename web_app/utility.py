@@ -53,10 +53,11 @@ def google_query(keywords, num_results)->pd.DataFrame:
     query = kw
     for url in search(query, num_results, lang="de"):
         # get html string
-        if requests.get(url, timeout=2.50) is None:
-            html_string = ''
-        else:
+        try: 
             html_string = requests.get(url, timeout=2.50).content
+        except:
+            html_string = ''
+            
         # get title
         title = parse_title_from_html(html_string)
         # get date
