@@ -3,10 +3,8 @@ import re
 import requests
 from googlesearch import search
 import pandas as pd
-import numpy as np
 import openai
 import datetime
-import spacy
 
 
 @st.cache
