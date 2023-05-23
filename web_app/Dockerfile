@@ -1,7 +1,7 @@
 FROM python:3.8
 COPY . /app
 WORKDIR /app
-RUN pip install -r requirements.txt
-EXPOSE 8001
+RUN pip install --upgrade -r requirements.txt
+EXPOSE 8501
 ENTRYPOINT [ "streamlit","run"]
 CMD ["main.py"]

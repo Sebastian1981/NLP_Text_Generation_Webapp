@@ -1,9 +1,7 @@
 import streamlit as st
-import json
 import pandas as pd
 import re
 import openai
-from path import Path
 
 
 from utility import parse_date_from_html, \
@@ -18,7 +16,7 @@ from utility import parse_date_from_html, \
 
 # get api key for chat gpt
 try: # this is for local runtime
-    with open('.\private.txt', 'r') as f:
+    with open('./private.txt', 'r') as f:
         content = f.read()
         key = re.findall(r'\'.*?\'', content)[0].strip('\'')
         openai.api_key = key
