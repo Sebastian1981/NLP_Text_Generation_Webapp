@@ -66,7 +66,7 @@ def run_generate_topics_app():
         # pass instruction to ChatGPT and generate topics
         df_titles_chatgpt = chatgpt_query(instruction, num_tokens=1000)
         #st.write(df_titles_chatgpt)
-        df_titles = df_titles_google.append(df_titles_chatgpt)
+        df_titles = pd.concat([df_titles_google, df_titles_chatgpt], axis=0, ignore_index=True)
         st.write(df_titles)
         # save string as file
         topics = df_titles['title']
